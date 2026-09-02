@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { coreSkills, projects } from './data/projects'
 
 const selectedYear = ref('All')
@@ -8,12 +8,25 @@ const loopSkills = [...coreSkills, ...coreSkills]
 const filteredProjects = computed(() => selectedYear.value === 'All'
   ? projects
   : projects.filter((project) => project.year === selectedYear.value))
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' })
+
+  document.querySelectorAll('.reveal').forEach((item) => observer.observe(item))
+})
 </script>
 
 <template>
   <main>
     <header class="hero" id="top">
-      <nav class="hero__nav" aria-label="주요 메뉴">
+      <nav class="hero__nav hero-reveal hero-reveal--one" aria-label="주요 메뉴">
         <a class="brand" href="#top"></a>
         <div>
           <a href="#skills">About</a>
@@ -21,7 +34,7 @@ const filteredProjects = computed(() => selectedYear.value === 'All'
           <a href="mailto:imaboutthat87@gmail.com">Contact</a>
         </div>
       </nav>
-      <div class="hero__title">
+      <div class="hero__title hero-reveal hero-reveal--two">
         <p class="eyebrow">WEB PUBLISHER · PORTFOLIO</p>
         <h1>최영수</h1>
         <p>금융의 정교함과 커머스의 속도를<br />화면으로 구현해왔습니다.</p>
@@ -30,16 +43,16 @@ const filteredProjects = computed(() => selectedYear.value === 'All'
           <a href="tel:01051025705">010-5102-5705</a>
         </div>
       </div>
-      <a class="scroll-link" href="#projects">Explore projects <span>↓</span></a>
+      <a class="scroll-link hero-reveal hero-reveal--three" href="#projects">Explore projects <span>↓</span></a>
     </header>
 
     <section class="skills section" id="skills" aria-labelledby="skills-title">
-      <div class="section-heading">
+      <div class="section-heading reveal">
         <p class="eyebrow">CORE SKILLS</p>
         <h2 id="skills-title">프로젝트 경험으로<br />쌓아온 기술들입니다.</h2>
       </div>
      
-      <div class="skill-static" aria-label="Core skills static view">
+      <div class="skill-static reveal" aria-label="Core skills static view">
         <div v-for="skill in coreSkills" :key="skill.name" class="skill-item">
           <img v-if="skill.icon" :src="skill.icon" :alt="skill.name" />
           <b v-else class="skill-item__mark" aria-hidden="true">{{ skill.mark || skill.name.slice(0, 1) }}</b>
@@ -49,7 +62,7 @@ const filteredProjects = computed(() => selectedYear.value === 'All'
     </section>
 
     <section class="projects section" id="projects" aria-labelledby="projects-title">
-      <div class="section-heading projects__heading">
+      <div class="section-heading projects__heading reveal">
         <div>
           <p class="eyebrow">PROJECT TIMELINE</p>
           <h2 id="projects-title">프로젝트 이력</h2>
@@ -57,13 +70,13 @@ const filteredProjects = computed(() => selectedYear.value === 'All'
         <p class="project-count">{{ filteredProjects.length }} Projects</p>
       </div>
 
-      <nav class="year-filter" aria-label="연도별 프로젝트 보기">
+      <nav class="year-filter reveal" aria-label="연도별 프로젝트 보기">
         <button v-for="year in years" :key="year" :class="{ active: selectedYear === year }" @click="selectedYear = year">
           {{ year }}
         </button>
       </nav>
 
-      <div class="timeline">
+      <div class="timeline reveal">
         <article v-for="project in filteredProjects" :key="`${project.title}-${project.period}`" class="project-card">
           <time :datetime="project.period.slice(0, 7)">{{ project.year }}</time>
           <div class="timeline-dot" aria-hidden="true"></div>
