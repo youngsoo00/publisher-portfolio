@@ -37,12 +37,25 @@ onMounted(() => {
       <div class="hero__title hero-reveal hero-reveal--two">
         <p class="eyebrow">WEB PUBLISHER · PORTFOLIO</p>
         <h1>최영수</h1>
-        <p>금융의 정교함과 커머스의 속도를<br />화면으로 구현해왔습니다.</p>
+        <p>복잡한 요구사항을<br />정교한 화면으로 구현합니다.</p>
         <div class="hero__contact">
           <a href="mailto:imaboutthat87@gmail.com">imaboutthat87@gmail.com</a>
           <a href="tel:01051025705">010-5102-5705</a>
         </div>
       </div>
+      <aside class="hero__metrics hero-reveal hero-reveal--two" aria-label="경력 요약">
+        <div class="hero__metric">
+          <strong>13<span>+</span></strong>
+          <b>YEARS</b>
+          <p>경험이 만드는<br />더 나은 웹 경험</p>
+        </div>
+        <div class="hero__metric">
+          <strong>35</strong>
+          <b>PROJECTS</b>
+          <p>다양한 산업의<br />프로젝트 경험</p>
+        </div>
+      </aside>
+      <div class="hero__art" aria-hidden="true"><span></span><i></i></div>
       <a class="scroll-link hero-reveal hero-reveal--three" href="#projects">Explore projects <span>↓</span></a>
     </header>
 
