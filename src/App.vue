@@ -13,11 +13,20 @@ const primarySkills = [
   ['SCSS', 'Maintainable Stylesheets'],
   ['jQuery', 'Dynamic UI Foundation']
 ].map(([name, description]) => ({ ...skillByName[name], description }))
-const frameworkSkills = ['Vuetify', 'Bootstrap', 'PrimeVue', 'WebSquare'].map((name) => skillByName[name])
-const collaborationSkills = ['Git', 'Figma', 'Zeplin', 'Adobe XD', 'Photoshop', 'PUG'].map((name) => skillByName[name])
+const frameworkSkills = ['Vuetify', 'Bootstrap', 'PrimeVue', 'WebSquare', 'PUG'].map((name) => skillByName[name])
+const collaborationSkills = ['Git', 'Figma', 'Zeplin', 'Adobe XD', 'Photoshop'].map((name) => skillByName[name])
 const filteredProjects = computed(() => selectedYear.value === 'All'
   ? projects
   : projects.filter((project) => project.year === selectedYear.value))
+const yearGroups = computed(() => {
+  const groups = new Map()
+  filteredProjects.value.forEach((project) => {
+    if (!groups.has(project.year)) groups.set(project.year, [])
+    groups.get(project.year).push(project)
+  })
+  return Array.from(groups, ([year, items]) => ({ year, items }))
+})
+const projectNumber = (project) => String(projects.indexOf(project) + 1).padStart(2, '0')
 
 onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
@@ -140,21 +149,36 @@ onMounted(() => {
       </nav>
 
       <div class="timeline reveal">
-        <article v-for="project in filteredProjects" :key="`${project.title}-${project.period}`" class="project-card">
-          <time :datetime="project.period.slice(0, 7)">{{ project.year }}</time>
-          <div class="timeline-dot" aria-hidden="true"></div>
-          <div class="project-card__body">
-            <p class="project-card__client">{{ project.client }}</p>
-            <h3>{{ project.title }}</h3>
-            <div class="project-card__meta">
-              <span>{{ project.period }}</span>
-              <span>{{ project.type }}</span>
-            </div>
-            <div v-if="project.skills.length" class="project-card__skills" aria-label="차별 기술">
-              <span v-for="skill in project.skills" :key="skill">{{ skill }}</span>
-            </div>
+        <section v-for="group in yearGroups" :key="group.year" class="timeline-year-group">
+          <header class="timeline-year">
+            <h3>{{ group.year }}</h3>
+            <p>{{ group.items.length }} {{ group.items.length === 1 ? 'PROJECT' : 'PROJECTS' }}</p>
+          </header>
+          <div class="timeline-year__line" aria-hidden="true"><span></span></div>
+          <div class="timeline-projects">
+            <article v-for="project in group.items" :key="`${project.title}-${project.period}`" class="project-card">
+              <div class="project-card__number">{{ projectNumber(project) }}</div>
+              <div class="project-card__info">
+                <p class="project-card__client">{{ project.client }}</p>
+                <h3>{{ project.title }}</h3>
+              </div>
+              <div class="project-card__detail">
+                <b>PERIOD</b>
+                <time :datetime="project.period.slice(0, 7)">{{ project.period }}</time>
+              </div>
+              <div class="project-card__detail">
+                <b>PLATFORM</b>
+                <span>{{ project.type }}</span>
+              </div>
+              <div class="project-card__detail project-card__detail--stack">
+                <b>STACK</b>
+                <div class="project-card__skills" aria-label="기술 스택">
+                  <span v-for="skill in project.skills" :key="skill">{{ skill }}</span>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
+        </section>
       </div>
     </section>
 
