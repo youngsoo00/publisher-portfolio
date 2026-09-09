@@ -5,6 +5,16 @@ import { coreSkills, projects } from './data/projects'
 const selectedYear = ref('All')
 const years = ['All', ...new Set(projects.map((project) => project.year))]
 const loopSkills = [...coreSkills, ...coreSkills]
+const skillByName = Object.fromEntries(coreSkills.map((skill) => [skill.name, skill]))
+const primarySkills = [
+  ['Vue', 'Progressive JavaScript Framework'],
+  ['JavaScript', 'Dynamic & Interactive Web'],
+  ['HTML5 / CSS3', 'Modern Web Standards'],
+  ['SCSS', 'Maintainable Stylesheets'],
+  ['jQuery', 'Dynamic UI Foundation']
+].map(([name, description]) => ({ ...skillByName[name], description }))
+const frameworkSkills = ['Vuetify', 'Bootstrap', 'PrimeVue', 'WebSquare'].map((name) => skillByName[name])
+const collaborationSkills = ['Git', 'Figma', 'Zeplin', 'Adobe XD', 'Photoshop', 'PUG'].map((name) => skillByName[name])
 const filteredProjects = computed(() => selectedYear.value === 'All'
   ? projects
   : projects.filter((project) => project.year === selectedYear.value))
@@ -60,16 +70,56 @@ onMounted(() => {
     </header>
 
     <section class="skills section" id="skills" aria-labelledby="skills-title">
-      <div class="section-heading reveal">
-        <p class="eyebrow">CORE SKILLS</p>
-        <h2 id="skills-title">프로젝트 경험으로<br />쌓아온 기술들입니다.</h2>
+      <div class="skills__intro reveal">
+        <div class="section-heading">
+          <p class="eyebrow">CORE SKILLS</p>
+          <h2 id="skills-title">프로젝트 경험으로<br />쌓아온 기술들입니다.</h2>
+        </div>
+        <div class="skills__summary">
+          <p>다양한 프로젝트 경험을 통해 축적한 기술로<br />사용자 중심의 웹을 만듭니다.</p>
+          <span>SKILLS<br />MAKE<br />IDEAS<br />REAL</span>
+        </div>
       </div>
-     
-      <div class="skill-static reveal" aria-label="Core skills static view">
-        <div v-for="skill in coreSkills" :key="skill.name" class="skill-item">
-          <img v-if="skill.icon" :src="skill.icon" :alt="skill.name" />
-          <b v-else class="skill-item__mark" aria-hidden="true">{{ skill.mark || skill.name.slice(0, 1) }}</b>
-          <span>{{ skill.name }}</span>
+      <div class="skills__group skills__group--primary reveal">
+        <div class="skills__group-heading">
+          <p>PRIMARY SKILLS</p>
+          <span>핵심 기술과 구현 역량</span>
+        </div>
+        <div class="primary-skill-grid">
+          <article v-for="skill in primarySkills" :key="skill.name" class="primary-skill-card">
+            <img v-if="skill.icon" :src="skill.icon" :alt="skill.name" />
+            <b v-else class="skill-item__mark" aria-hidden="true">{{ skill.mark || skill.name.slice(0, 1) }}</b>
+            <h3>{{ skill.name }}</h3>
+            <p>{{ skill.description }}</p>
+          </article>
+        </div>
+      </div>
+      <div class="skills__minor-groups reveal">
+        <div class="skills__group">
+          <div class="skills__group-heading">
+            <p>FRAMEWORK / UI</p>
+            <span>더 나은 개발을 위한 UI 라이브러리</span>
+          </div>
+          <div class="minor-skill-grid">
+            <article v-for="skill in frameworkSkills" :key="skill.name" class="minor-skill-card">
+              <img v-if="skill.icon" :src="skill.icon" :alt="skill.name" />
+              <b v-else class="skill-item__mark" aria-hidden="true">{{ skill.mark || skill.name.slice(0, 1) }}</b>
+              <span>{{ skill.name }}</span>
+            </article>
+          </div>
+        </div>
+        <div class="skills__group">
+          <div class="skills__group-heading">
+            <p>DESIGN / COLLABORATION</p>
+            <span>효율적인 협업과 완성도를 위한 도구</span>
+          </div>
+          <div class="minor-skill-grid">
+            <article v-for="skill in collaborationSkills" :key="skill.name" class="minor-skill-card">
+              <img v-if="skill.icon" :src="skill.icon" :alt="skill.name" />
+              <b v-else class="skill-item__mark" aria-hidden="true">{{ skill.mark || skill.name.slice(0, 1) }}</b>
+              <span>{{ skill.name }}</span>
+            </article>
+          </div>
         </div>
       </div>
     </section>
