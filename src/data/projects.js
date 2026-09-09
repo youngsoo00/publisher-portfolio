@@ -9,6 +9,7 @@ export const coreSkills = [
   { name: 'jQuery', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jquery/jquery-original.svg' },
   { name: 'HTML5 / CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg' },
   { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg' },
+  { name: 'SVN', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/subversion/subversion-original.svg' },
   { name: 'WebSquare', icon: null },
   { name: 'PUG', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pug/pug-original.svg' },
   { name: 'Zeplin', icon: null, mark: 'Z' },

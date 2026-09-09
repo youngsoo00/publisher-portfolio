@@ -14,7 +14,7 @@ const primarySkills = [
   ['jQuery', 'Dynamic UI Foundation']
 ].map(([name, description]) => ({ ...skillByName[name], description }))
 const frameworkSkills = ['React', 'Vuetify', 'Bootstrap', 'PrimeVue', 'WebSquare', 'PUG'].map((name) => skillByName[name])
-const collaborationSkills = ['Git', 'Figma', 'Zeplin', 'Adobe XD', 'Photoshop'].map((name) => skillByName[name])
+const collaborationSkills = ['Git', 'SVN', 'Figma', 'Zeplin', 'Adobe XD', 'Photoshop'].map((name) => skillByName[name])
 const filteredProjects = computed(() => selectedYear.value === 'All'
   ? projects
   : projects.filter((project) => project.year === selectedYear.value))
